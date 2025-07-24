@@ -10,6 +10,8 @@ import {
   LogOut,
   UserPlus,
   ChevronDown,
+  ChevronUp,
+  
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
@@ -17,6 +19,8 @@ import { usePathname } from "next/navigation";
 import { div, li } from "framer-motion/client";
 
 const Navbar = () => {
+
+ const [openDropdown, setOpenDropdown] = useState(false);
   // Navigation configuration
   const navigation = [
     { name: "Home", href: "/", priority: 1 },
@@ -54,16 +58,44 @@ const Navbar = () => {
             <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
             <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
           </svg>
-          <strong className=" text-emerald-600 text-2xl ">Urbanai</strong>
+          <strong className=" text-emerald-600 text-2xl "><a href="/">Urbanai</a></strong>
         </div>
 
-        <div className=" px-6 py-2 list-none w-auto flex space-x-6 transform bg-white/80 backdrop-blur-md shadow-md rounded-full">
+        <div className="px-6 py-2 list-none flex space-x-6 transform bg-white/80 backdrop-blur-md shadow-md rounded-full">
           {mainPages.map((item, index) => (
             <li key={index}>
               <a href={item.href}>{item.name}</a>
+
             </li>
+
           ))}
+          <li className="relative">
+            <button
+              onClick={() => setOpenDropdown(!openDropdown)}
+              className="flex items-center focus:outline-none"
+            >
+              More <ChevronDown className="ml-1" />
+            </button>
+
+          </li>
+          <AnimatePresence>
+           {openDropdown && (
+              <motion.ul 
+              initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.2 }}
+              className="absolute right-10 mt-9 bg-white shadow-md rounded-md p-2 z-50 w-48 space-y-3 overflow-hidden">
+                {secondaryPages.map((item, index) => (
+                  <li key={index} className="py-1 px-2 hover:bg-gray-100 rounded">
+                    <Link href={item.href}>{item.name}</Link>
+                  </li>
+                ))}
+              </motion.ul>
+            )}
+            </AnimatePresence>
         </div>
+        
 
         {/* Buttons */}
         <div className="flex space-x-3">
@@ -85,5 +117,7 @@ const Navbar = () => {
       </div>
     </nav>
   );
+
+  
 };
 export default Navbar;
