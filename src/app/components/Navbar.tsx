@@ -11,7 +11,6 @@ import {
   UserPlus,
   ChevronDown,
   ChevronUp,
-  
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
@@ -19,8 +18,9 @@ import { usePathname } from "next/navigation";
 import { div, li } from "framer-motion/client";
 
 const Navbar = () => {
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
 
- const [openDropdown, setOpenDropdown] = useState(false);
   // Navigation configuration
   const navigation = [
     { name: "Home", href: "/", priority: 1 },
@@ -58,66 +58,90 @@ const Navbar = () => {
             <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
             <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
           </svg>
-          <strong className=" text-emerald-600 text-2xl "><a href="/">Urbanai</a></strong>
+          <strong className=" text-emerald-600 text-2xl ">
+            <a href="/">Urbanai</a>
+          </strong>
         </div>
 
         <div className="px-6 py-2 list-none flex space-x-6 transform bg-white/80 backdrop-blur-md shadow-md rounded-full">
           {mainPages.map((item, index) => (
             <li key={index}>
               <a href={item.href}>{item.name}</a>
-
             </li>
-
           ))}
           <li className="relative">
             <button
               onClick={() => setOpenDropdown(!openDropdown)}
               className="flex items-center focus:outline-none"
             >
-              More <ChevronDown className="ml-1" />
+              More
+              {openDropdown ? (
+                <ChevronUp className="ml-1" />
+              ) : (
+                <ChevronDown className="ml-1" />
+              )}
             </button>
-
           </li>
-          <AnimatePresence>
-           {openDropdown && (
-              <motion.ul 
-              initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.2 }}
-              className="absolute right-10 mt-9 bg-white shadow-md rounded-md p-2 z-50 w-48 space-y-3 overflow-hidden">
-                {secondaryPages.map((item, index) => (
-                  <li key={index} className="py-1 px-2 hover:bg-gray-100 rounded">
-                    <Link href={item.href}>{item.name}</Link>
-                  </li>
-                ))}
-              </motion.ul>
-            )}
-            </AnimatePresence>
         </div>
-        
+
+        <AnimatePresence>
+          {openDropdown && (
+            <motion.ul
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="absolute right-100 mt-12 bg-white shadow-md rounded-md p-2 z-50 w-48 space-y-3 overflow-hidden"
+            >
+              {secondaryPages.map((item, index) => (
+                <li key={index} className="py-1 px-2 hover:bg-gray-100 rounded">
+                  <Link href={item.href}>{item.name}</Link>
+                </li>
+              ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
 
         {/* Buttons */}
-        <div className="flex space-x-3">
+        {/* <div className="flex space-x-3">
           <button className="border border-green-600 text-green-600 rounded-full px-4 py-1 text-sm hover:bg-green-100 transition">
-            Submit Idea
+            <strong className="text-l"> Login</strong>
           </button>
-          <button className="bg-indigo-500 text-white rounded-full px-4 py-1 text-sm flex items-center gap-1 hover:bg-indigo-600 transition">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              className="w-4 h-4"
-            >
-              <path d="M22 24l-5.5-5.5H7.5L2 24V2h20v22z" />
-            </svg>
-            Join Discord
+          <button className="bg-emerald-500 text-white rounded-full px-4 py-1 text-sm flex items-center gap-1 hover:bg-emerald-600 transition">
+              <UserPlus />
+            Sign Up
+          </button>
+        </div> */}
+
+        <div className="flex items-center">
+          <img
+            src="https://i.pravatar.cc/150?img=3"
+            alt="Profile"
+            className="w-10 h-10 rounded-full object-cover"
+          />{" "}
+          <button onClick={() => setOpenProfile(!openProfile)}>
+            {openProfile ? (
+              <ChevronUp className="ml-1" />
+            ) : (
+              <ChevronDown className="ml-1" />
+            )}
           </button>
         </div>
+        <AnimatePresence>
+          {openProfile && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="absolute right-0 mt-18 bg-white shadow-md rounded-md p-2 z-50 w-48 space-y-3 overflow-hidden"
+            >
+              
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
-
-  
 };
 export default Navbar;
