@@ -118,7 +118,7 @@ const Navbar = () => {
             src="https://i.pravatar.cc/150?img=3"
             alt="Profile"
             className="w-10 h-10 rounded-full object-cover"
-          />{" "}
+          />
           <button onClick={() => setOpenProfile(!openProfile)}>
             {openProfile ? (
               <ChevronUp className="ml-1" />
@@ -134,8 +134,24 @@ const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="absolute right-0 mt-18 bg-white shadow-md rounded-md p-2 z-50 w-48 space-y-3 overflow-hidden"
+              className="absolute right-0 mt-18 bg-white shadow-md rounded-md p-2 z-50 w-68 space-y-3 overflow-hidden"
             >
+              <div className="flex flex-col items-center px-4 pt-4 pb-2 border-b border-gray-100">
+                <img src="https://i.pravatar.cc/150?img=3" alt="Profile" className="w-12 h-12 rounded-full border border-gray-200 mb-2"/>
+                <div className="font-semibold text-gray-900 text-base truncate w-full text-center">Sourabh Singh</div>
+                <div className="text-xs text-gray-500 truncate w-full text-center">sourabh3527@gmail.com</div></div>
+                <div className="buttons w-full flex justify-center flex-col space-y-2">
+                  <a
+                    href="/profile"
+                    className="block px-6 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700 transition rounded-t-xl text-center"
+                  >
+                    Profile
+                  </a>
+
+                  <button className="block w-full text-center px-6 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition rounded-b-xl border-t border-gray-100">
+                    Logout
+                  </button>
+                </div>
               
             </motion.div>
           )}
